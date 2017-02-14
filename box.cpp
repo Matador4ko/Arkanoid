@@ -14,10 +14,10 @@
 #include "box.h"
 #include <iostream>
 
-box::box(int width, int height, float speed) {
+box::box(int width, int height, float sp) {
     w=width;
     h=height;
-    s=speed;
+    speed=speed;
 }
 void box::setPosition(float init_x, float init_y){
     x=init_x;
@@ -35,7 +35,19 @@ void box::loadSprite(const char* texture, int pos_x, int pos_y){
     sprite.setTextureRect(sf::IntRect(pos_x,pos_y,w,h));
 }
 void box::move(int dir_x,int dir_y){
+    float mX = dir_x*speed;
+    float mY = dir_y*speed;
     
+    x=hitbox.left=hitbox.left+mX;
+    y=hitbox.top=hitbox.top+mY;
+    
+    sprite.move(mX,mY);
+}
+void box::setSpeed(float sp){
+    speed=sp;
+}
+bool box::collision(sf::Rect<float> hit){
+    return hitbox.intersects(hit);
 }
 box::~box() {
 }
