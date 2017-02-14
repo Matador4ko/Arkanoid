@@ -1,32 +1,22 @@
 #include <iostream>
+#include <sstream>
+#include <cstdlib>
 #include <SFML/Graphics.hpp>
+#include "box.h"
+#include "bar.h"
+#include "block.h"
 
-#define kVel 5
+using namespace std;
 
 int main()
 {
+    
+    
+    
     //Creamos una ventana 
     sf::RenderWindow window(sf::VideoMode(640, 480), "P0. Fundamentos de los Videojuegos. DCCIA");
 
-    //Cargo la imagen donde reside la textura del sprite
-    sf::Texture tex;
-    if (!tex.loadFromFile("resources/sprites.png"))
-    {
-        std::cerr << "Error cargando la imagen sprites.png";
-        exit(0);
-    }
     
-    //Y creo el spritesheet a partir de la imagen anterior
-    sf::Sprite sprite(tex);
-    
-    //Le pongo el centroide donde corresponde
-    sprite.setOrigin(75/2,75/2);
-    //Cojo el sprite que me interesa por defecto del sheet
-    sprite.setTextureRect(sf::IntRect(0*75, 0*75, 75, 75));
-
-    
-    // Lo dispongo en el centro de la pantalla
-    sprite.setPosition(320, 240);
 
     
 
