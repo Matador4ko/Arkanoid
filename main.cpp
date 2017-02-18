@@ -56,15 +56,33 @@ int main()
     ball.loadSprite(tex, 140,0);
     ball.setPosition(315,120);
     
+    srand(time(NULL));
+    int x= rand() % 3;
+    int rows = rand() % 3 + 1;
     block bloque = block(50,15);
-    bloque.loadSprite(tex,90,0);
-    vector<block> blocks(bloques,bloque);
+        
+    bloque.loadSprite(tex,90,0+(15*x));
     
+    
+    bloques = bloques * rows;
+    vector<block> blocks(bloques,bloque);
     int aux=3;
-    for(int i=0; i<blocks.size(); i++){
-        blocks[i].setPosition((50*i)+aux,30);
-        aux=aux+3;
+    int cont=0;
+    int num = 0;
+    srand(time(NULL));
+    for(int y=0; y<rows ; y++){
+        aux = 3;
+        cont = 0;
+        for(int i=0; i<blocks.size(); i++){
+            if(cont < 12){
+                blocks[num].setPosition((50*i)+aux,30+18*y);
+                aux=aux+3;
+                cont++;
+                num++;
+            }
+        }
     }
+    
     window.setFramerateLimit(100);
     bool broken=false;
     //Bucle del juego
