@@ -16,9 +16,35 @@ int main()
     //Creamos una ventana 
     sf::RenderWindow window(sf::VideoMode(640, 480), "P0. Fundamentos de los Videojuegos. DCCIA");
 
+    //Añadimos un background
+    
+    int ballSpeed;
+    
     sf::Texture tex;
     sf::Font font;
-    font.loadFromFile("resources/sansation.ttf");
+    if (!font.loadFromFile("resources/sansation.ttf")){
+        std::cerr << "Error cargando la fuente sansation.ttf";
+        exit(0);
+    }
+    bool endg=false;
+    std::ostringstream ose;
+    ose << "Has perdido";
+    sf::Text endgame(ose.str(),font);
+    endgame.setString(ose.str());
+
+    endgame.setPosition(260,200);
+    endgame.setCharacterSize(22);
+    endgame.setStyle(sf::Text::Bold);
+    
+    int vidas = 3;
+    std::ostringstream osl;
+    osl << "|        Vidas restantes: "<<vidas;
+    sf::Text lifes(osl.str(),font);
+    lifes.setString(osl.str());
+    
+    lifes.setPosition(350,1);
+    lifes.setCharacterSize(22);
+    lifes.setStyle(sf::Text::Bold);
     
     int bloques = 12;
     std::ostringstream os;
@@ -26,7 +52,7 @@ int main()
     sf::Text text(os.str(),font);
     text.setString(os.str());
     
-    text.setPosition(200,1);
+    text.setPosition(50,1);
     text.setCharacterSize(22);
     text.setStyle(sf::Text::Bold);
     
@@ -36,10 +62,7 @@ int main()
     sf::Rect<float> topWall = sf::Rect<float> (0,0,640,1);
     sf::Rect<float> bottomWall = sf::Rect<float> (0,479,640,1);
     
-    if (!font.loadFromFile("resources/sansation.ttf")){
-        std::cerr << "Error cargando la fuente sansation.ttf";
-        exit(0);
-    }
+    
     if (!tex.loadFromFile("resources/textura_arkanoid.png")) {
         std::cerr << "Error cargando la imagen textura_arkanoid.png";
         exit(0);
@@ -75,7 +98,7 @@ int main()
         cont = 0;
         for(int i=0; i<blocks.size(); i++){
             if(cont < 12){
-                blocks[num].setPosition((50*i)+aux,30+18*y);
+                blocks[num].setPosition((50*i)+aux,30+30*y);
                 aux=aux+3;
                 cont++;
                 num++;
@@ -145,13 +168,40 @@ int main()
         if (ball.collision(topWall)) mY = mY*-1;
         if (ball.collision(leftWall)) mX = mX*-1;
         if (ball.collision(rightWall)) mX = mX*-1;
-        if (ball.collision(bottomWall)) {mY = 0; mX = 0; }
+        if (ball.collision(bottomWall)) {
+            if(vidas > 0){
+                vidas--; 
+                mX = 0;
+                osl.str(std::string());
+                osl << "|        Vidas restantes: "<<vidas;
+                lifes.setString(osl.str());
+                if(vidas >= 1){
+                    space.setPosition(275,450);
+                    mY = 2;  
+                    ball.setPosition(315,120);
+                    int ballSpeed = ball.getS() - 0.5f;
+                    if(ballSpeed < 2){
+                        ball.setSpeed(2.0f);
+                    }else{
+                        ball.setSpeed(ballSpeed);
+                    }
+                }else{
+                    endg=true;
+                    mY=0;
+                }
+            }
+        }
         
         ball.move(mX,mY);
         
         window.clear();
+        window.draw(lifes);
+        window.draw(text);
         window.draw(space.getSprite());
         window.draw(ball.getSprite());
+        if(endg == true){
+            window.draw(endgame);
+        }
         broken=false;
         for(int i=0; i<blocks.size() ; i++){
             if(blocks[i].getVisible()==true){
@@ -165,10 +215,12 @@ int main()
                     os << "Bloques por destruir: "<<bloques;
                     text.setString(os.str());
                     ball.setSpeed(ball.getS()+0.2f);
+                    if(ball.getS() > 3){
+                        space.setSpeed(space.getS()+0.2f);
+                    }
                 }
             }
         }
-        window.draw(text);
         window.display();
     }
 
