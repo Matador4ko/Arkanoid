@@ -16,6 +16,7 @@ int main()
     //Creamos una ventana 
     sf::RenderWindow window(sf::VideoMode(640, 480), "P0. Fundamentos de los Videojuegos. DCCIA");
     sf::Texture tex;
+    sf::Texture background;
     sf::Font font;
     //Añadimos un background
     
@@ -32,7 +33,7 @@ int main()
     int rows = rand() % 3 + 1;
     int bloques = 12 * rows; // numero de bloques (segun el numero de filas habran mas o menos bloques, esto indica que hay 12 por fila)
     std::ostringstream os; //para mostrar la frase de bloques restantes
-    int vidas = 3;
+    int vidas = rows;
     std::ostringstream osl; //para mostrar la frase de vidas restantes
     bool endg=false; //para poder saber cuando hemos llegado a 0 vida, lo volveremos tre y al final mostraremos un texto de finalizacion
     std::ostringstream ose; //mostrar la frase de final del juego
@@ -51,6 +52,7 @@ int main()
     endgame.setString(ose.str());
     endgame.setPosition(260,200);
     endgame.setCharacterSize(22);
+    endgame.setColor(sf::Color::Green);
     endgame.setStyle(sf::Text::Bold);
     
     osw << "Has ganado";
@@ -85,6 +87,12 @@ int main()
         std::cerr << "Error cargando la imagen textura_arkanoid.png";
         exit(0);
     }
+    if (!background.loadFromFile("resources/background.png")) {
+        std::cerr << "Error cargando la imagen background.png";
+        exit(0);
+    }
+    
+    sf::Sprite s_background(background);
     
     bar space=bar(90,15,6.0f);
     space.loadSprite(tex,0,0);
@@ -199,6 +207,7 @@ int main()
         
         //mostrar los textos
         window.clear();
+        window.draw(s_background);
         window.draw(lifes);
         window.draw(text);
         window.draw(space.getSprite());
