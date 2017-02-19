@@ -52,7 +52,7 @@ int main()
     endgame.setString(ose.str());
     endgame.setPosition(260,200);
     endgame.setCharacterSize(22);
-    endgame.setColor(sf::Color::Green);
+    endgame.setFillColor(sf::Color::Green);
     endgame.setStyle(sf::Text::Bold);
     
     osw << "Has ganado";
