@@ -52,7 +52,7 @@ int main()
     endgame.setString(ose.str());
     endgame.setPosition(260,200);
     endgame.setCharacterSize(22);
-    endgame.setFillColor(sf::Color::Green);
+    endgame.setFillColor(sf::Color::Red);
     endgame.setStyle(sf::Text::Bold);
     
     osw << "Has ganado";
@@ -60,6 +60,7 @@ int main()
     wingame.setString(osw.str());
     wingame.setPosition(260,200);
     wingame.setCharacterSize(22);
+    wingame.setFillColor(sf::Color::Red);
     wingame.setStyle(sf::Text::Bold);
     
     osl << "|        Vidas restantes: "<<vidas;
@@ -67,6 +68,7 @@ int main()
     lifes.setString(osl.str());
     lifes.setPosition(350,1);
     lifes.setCharacterSize(22);
+    lifes.setFillColor(sf::Color::Green);
     lifes.setStyle(sf::Text::Bold);
     
     os << "Bloques por destruir: "<<bloques;
@@ -74,6 +76,7 @@ int main()
     text.setString(os.str());
     text.setPosition(50,1);
     text.setCharacterSize(22);
+    text.setFillColor(sf::Color::Green);
     text.setStyle(sf::Text::Bold);
     
     //Revisar y entender
@@ -95,16 +98,21 @@ int main()
     sf::Sprite s_background(background);
     
     bar space=bar(90,15,6.0f);
-    space.loadSprite(tex,0,0);
+    space.loadSprite(tex,5,5);
     space.setPosition(275,450);
     
     
-    box ball=box(15,15,2.0f);
-    ball.loadSprite(tex, 140,0);
+    box ball=box(15,15,1.2f);
+    ball.loadSprite(tex, 155,5);
     ball.setPosition(315,120);
-    
     block bloque = block(50,15);
-    bloque.loadSprite(tex,90,0+(15*x));
+    if(x == 0){
+       bloque.loadSprite(tex,100,5); 
+    } else if(x == 1){
+       bloque.loadSprite(tex,100,24); 
+    }else if(x == 2){
+       bloque.loadSprite(tex,100,43); 
+    }
     vector<block> blocks(bloques,bloque);
     
     for(int y=0; y<rows ; y++){
@@ -120,7 +128,7 @@ int main()
         }
     }
     
-    window.setFramerateLimit(100); //para limitar los fps y no gastar recursos de mas
+    window.setFramerateLimit(120); //para limitar los fps y no gastar recursos de mas
     //Bucle del juego
     while (window.isOpen())
     {
@@ -193,8 +201,8 @@ int main()
                     mY = 2;  
                     ball.setPosition(315,120);
                     int ballSpeed = ball.getS() - 0.5f;
-                    if(ballSpeed < 2){
-                        ball.setSpeed(2.0f);
+                    if(ballSpeed < 1.2f){
+                        ball.setSpeed(1.2f);
                     }else{
                         ball.setSpeed(ballSpeed);
                     }
@@ -229,9 +237,9 @@ int main()
                     os.str(std::string());
                     os << "Bloques por destruir: "<<bloques;
                     text.setString(os.str());
-                    ball.setSpeed(ball.getS()+0.2f);
+                    ball.setSpeed(ball.getS()+0.1f);
                     if(ball.getS() > 3){
-                        space.setSpeed(space.getS()+0.2f);
+                        space.setSpeed(space.getS()+0.1f);
                     }
                     if(bloques == 0){
                         wing = true;
