@@ -10,14 +10,13 @@
  * 
  * Created on 12 de febrero de 2017, 20:38
  */
-
 #include "box.h"
 #include <iostream>
 
 box::box(int width, int height, float sp) {
     w=width;
     h=height;
-    speed=speed;
+    speed=sp;
 }
 void box::setPosition(float init_x, float init_y){
     x=init_x;
@@ -25,11 +24,8 @@ void box::setPosition(float init_x, float init_y){
     sprite.setPosition(x,y);
     hitbox=sf::Rect<float> (x,y,w,h);
 }
-void box::loadSprite(const char* texture, int pos_x, int pos_y){
-    if(tex.loadFromFile(texture)==false){
-        std::cerr <<"Error en al cargar el sprite";
-        exit(0);
-    }
+void box::loadSprite(sf::Texture texture, int pos_x, int pos_y){
+    tex = texture;
     sprite=sf::Sprite(tex);
     sprite.setOrigin(0,0);
     sprite.setTextureRect(sf::IntRect(pos_x,pos_y,w,h));

@@ -10,10 +10,9 @@
  * 
  * Created on 14 de febrero de 2017, 22:38
  */
-
-#include <SFML/Graphics/Rect.hpp>
-
+#include "box.h"
 #include "bar.h"
+#include <iostream>
 
 bar::bar(int width, int height, int speed) : box(width, height, speed) {
 }
@@ -24,12 +23,12 @@ void bar::setPosition(int x, int y){
     float w = box::getW();
     float h = box::getH();
     float size = w/5;
-    //por que x-(2*size) y size????
-    secondLeftHitbox = sf::Rect<float>(x-(2*size), y, size, h);
-    leftHitbox = sf::Rect<float>(x-size, y, size, h);
-    centerHitbox = sf::Rect<float>(x, y, size, h);
-    rightHitbox = sf::Rect<float>(x+size, y, size, h);
-    secondRightHitbox = sf::Rect<float>(x+(2*size), y, size, h);
+    
+    secondLeftHitbox = sf::Rect<float>(x, y, size, h);
+    leftHitbox = sf::Rect<float>(x+size, y, size, h);
+    centerHitbox = sf::Rect<float>(x+(size*2), y, size, h);
+    rightHitbox = sf::Rect<float>(x+(size*3), y, size, h);
+    secondRightHitbox = sf::Rect<float>(x+(4*size), y, size, h);
     
 }
 
@@ -44,7 +43,7 @@ void bar::move(int dX, int dY){
     secondRightHitbox.left = secondRightHitbox.left + mX;
 }
 
-void bar::collision(sf::Rect<float> hit){
+int bar::collision(sf::Rect<float> hit){
     if(secondLeftHitbox.intersects(hit)) return 0;
     else if(leftHitbox.intersects(hit)) return 1;
     else if(centerHitbox.intersects(hit)) return 2;

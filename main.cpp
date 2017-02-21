@@ -41,7 +41,6 @@ int main()
     bool wing=false; //para saber cuando mostrar el texto de victoria al llegar a bloques 0
     std::ostringstream osw; //mostrar la frase de ganar del juego
     
-    
     if (!font.loadFromFile("resources/sansation.ttf")){
         std::cerr << "Error cargando la fuente sansation.ttf";
         exit(0);
